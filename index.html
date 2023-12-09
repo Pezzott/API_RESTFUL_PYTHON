@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ligas Esportivas por País</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-image: url('https://i.pinimg.com/736x/55/fc/8b/55fc8b17a894ce77b3a0d0cc238e39a0.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        header {
+            background-color: rgba(144, 238, 144, 0.8);
+            /* Verde claro com opacidade de 80% */
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+
+        h1 {
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 60px;
+            /* Espaçamento para o conteúdo não sobrepor o cabeçalho */
+        }
+
+        .card {
+            width: 300px;
+            height: 200px;
+            background-color: rgba(255, 255, 255, 0.8);
+            /* Branco com opacidade de 80% */
+            margin: 0 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            /* Opcional: bordas arredondadas para um visual mais suave */
+            padding: 10px;
+            /* Opcional: espaço interno para o conteúdo não tocar as bordas */
+        }
+
+        .card img {
+            width: 100%;
+            /* Faz a imagem preencher a largura do card */
+            height: 100%;
+            /* Faz a imagem preencher a altura do card */
+            object-fit: contain;
+            /* Garante que a imagem seja redimensionada mantendo sua proporção */
+            border-radius: 5px;
+            /* Arredonda as bordas da imagem como o card */
+        }
+
+
+
+        #yearDropdown {
+            padding: 10px 15px;
+            border-radius: 20px;
+            /* Bordas arredondadas */
+            border: 2px solid #ddd;
+            /* Borda mais sutil */
+            background-color: rgba(255, 255, 255, 0.9);
+            /* Fundo ligeiramente translúcido */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            /* Sombra para um efeito 3D sutil */
+            font-size: 16px;
+            /* Tamanho do texto maior para melhor legibilidade */
+            cursor: pointer;
+            /* Muda o cursor para indicar que é um elemento clicável */
+            outline: none;
+            /* Remove o contorno padrão para foco */
+            transition: all 0.3s ease;
+            /* Suaviza as transições de estado */
+        }
+
+        #yearDropdown:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            /* Sombra maior no hover para um efeito de elevação */
+        }
+
+        #yearDropdown:focus {
+            border-color: #aaa;
+            /* Muda a cor da borda quando em foco para feedback visual */
+        }
+
+
+        .result-section {
+            text-align: center;
+            margin-top: 30px;
+            /* Distância do conteúdo acima */
+        }
+
+        #fetchResult {
+            padding: 10px 20px;
+            font-size: 16px;
+            /* Tamanho do texto maior para melhor legibilidade */
+            border-radius: 20px;
+            /* Bordas arredondadas */
+            border: 2px solid #ddd;
+            /* Borda mais sutil */
+            background-color: rgba(0, 123, 255, 0.8);
+            /* Cor azul com opacidade */
+            color: white;
+            /* Cor do texto */
+            cursor: pointer;
+            /* Muda o cursor para indicar que é um elemento clicável */
+            outline: none;
+            /* Remove o contorno padrão para foco */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            /* Sombra para um efeito 3D sutil */
+            transition: all 0.3s ease;
+            /* Suaviza as transições de estado */
+        }
+
+        #fetchResult:hover {
+            background-color: rgba(0, 123, 255, 1);
+            /* Cor azul mais forte no hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            /* Sombra maior no hover para um efeito de elevação */
+        }
+
+        #fetchResult:active {
+            transform: translateY(2px);
+            /* Efeito de clique, pressionando o botão */
+        }
+
+        #matchResult {
+            display: inline-block;
+            margin-left: 10px;
+            padding: 10px;
+            min-width: 150px;
+            /* Largura mínima para manter o layout consistente */
+            border-radius: 10px;
+            /* Bordas arredondadas */
+            background-color: rgba(255, 255, 255, 0.9);
+            /* Fundo ligeiramente translúcido */
+            border: 1px solid #ddd;
+            /* Borda mais sutil */
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            /* Sombra interna para profundidade */
+            font-size: 16px;
+            vertical-align: middle;
+            /* Alinha verticalmente com o botão */
+        }
+    </style>>
+</head>
+
+<body>
+
+    <header>
+        <h1>LIGAS ESPORTIVAS POR PAÍS</h1>
+    </header>
+
+    <div class="cards-container">
+        <div class="card" id="card1">
+            <img id="team1Logo" src="" alt="brasão time 1">
+        </div>
+
+        <select id="yearDropdown">
+            <option value="1999">1999</option>
+            <option value="2000">2000</option>
+            <option value="2001">2001</option>
+        </select>
+
+        <div class="card" id="card2">
+            <img id="team2Logo" src="" alt="brasão time 2">
+        </div>
+    </div>
+
+    <div class="result-section">
+        <button id="fetchResult">Resultado do Jogo Entre os Dois Times</button>
+        <span id="matchResult"><!-- Aqui aparecerá o resultado --></span>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var yearDropdown = document.getElementById('yearDropdown');
+            var fetchResultButton = document.getElementById('fetchResult');
+            var team1Logo = document.getElementById('team1Logo'); // Novo ID para o logo do time 1
+            var team2Logo = document.getElementById('team2Logo'); // Novo ID para o logo do time 2
+            var matchResult = document.getElementById('matchResult');
+
+            fetchResultButton.addEventListener('click', function () {
+                var selectedYear = yearDropdown.value;
+                fetch('/api-endpoint', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        ano_da_final: selectedYear
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok ' + response.statusText);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Atualiza os cartões com as URLs dos brasões dos times
+                        team1Logo.src = data['Times da Final'][0]; // Atualiza o src da imagem com a URL do brasão do time 1
+                        team2Logo.src = data['Times da Final'][1]; // Atualiza o src da imagem com a URL do brasão do time 2
+
+                        // Atualiza o resultado do jogo
+                        matchResult.textContent = data['Resultado do jogo']; // Supondo que a resposta inclui o resultado do jogo
+                    })
+                    .catch(error => {
+                        console.error('There has been a problem with your fetch operation:', error);
+                    });
+            });
+        });
+
+    </script>
+</body>
+
+</html>
